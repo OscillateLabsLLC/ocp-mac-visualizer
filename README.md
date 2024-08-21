@@ -2,6 +2,8 @@
 
 This project is a web-based music visualizer for OpenVoiceOS (OVOS), specifically [ovos-mac](https://github.com/OscillateLabsLLC/ovos-mac). It displays the currently playing track information, album art, and a simple visualization, along with playback controls.
 
+![OVOS Music Visualizer](image.png)
+
 ## Features
 
 - Displays current track information (title, artist, album)
