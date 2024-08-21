@@ -1,11 +1,13 @@
 const { javascript } = require("projen");
+const { NodePackageManager } = require("projen/lib/javascript");
 const project = new javascript.NodeProject({
   defaultReleaseBranch: "main",
   name: "ocp-mac-visualizer",
+  license: "Apache-2.0",
+  authorName: "Mike Gray",
+  authorEmail: "mike@oscillatelabs.net",
+  packageManager: NodePackageManager.PNPM,
 
-  // deps: [],                /* Runtime dependencies of this module. */
-  // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
-  // devDeps: [],             /* Build dependencies for this module. */
-  // packageName: undefined,  /* The "name" in package.json. */
+  deps: ["express", "socket.io", "ws"],
 });
 project.synth();

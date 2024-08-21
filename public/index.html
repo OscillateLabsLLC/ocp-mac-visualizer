@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OVOS Music Visualizer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="visualizer">
+        <div id="left-panel">
+            <img id="album-art" src="" alt="Album Art">
+            <h2 id="title">Waiting for track...</h2>
+            <p id="artist">Waiting for artist...</p>
+            <p id="album">Waiting for album...</p>
+            <div id="controls">
+                <button id="play-pause-button">Play/Pause</button>
+            </div>
+            <div id="progress-bar-container">
+                <div id="progress-bar"></div>
+            </div>
+            <div id="time-info">
+                <span id="current-time">0:00</span> / <span id="total-time">0:00</span>
+            </div>
+        </div>
+        <div id="right-panel">
+            <div id="visualization">
+                <img src="https://i.gifer.com/BHFO.gif" alt="Audio Visualization" id="viz-gif">
+            </div>
+        </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
