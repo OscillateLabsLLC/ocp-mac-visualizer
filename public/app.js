@@ -15,10 +15,9 @@ socket.on("media_info", (data) => {
 socket.on("playback_time", (data) => {
   console.log("Received playback time:", data);
   if (data && typeof data.position === "number") {
-    currentTime = data.position; // Convert milliseconds to seconds
-    totalDuration = data.length || totalDuration / 1000; // Convert milliseconds to seconds
+    currentTime = data.position;
+    totalDuration = data.length / 1000 || totalDuration / 1000;
     updateProgressBar();
-    updateTimeDisplay();
   }
 });
 
@@ -29,7 +28,9 @@ function updateTrackInfo(data) {
     data.artist || "Unknown Artist";
   document.getElementById("album").textContent = data.album || "Unknown Album";
   document.getElementById("album-art").src = data.image || "";
-  totalDuration = (data.length || data.duration || 0) / 1000; // Convert milliseconds to seconds
+
+  // Update totalDuration only if it's different
+  totalDuration = (data.length || data.duration) / 1000;
   updateTimeDisplay();
 }
 
@@ -64,6 +65,18 @@ function updateTimeDisplay() {
   document.getElementById("total-time").textContent = formatTime(totalDuration);
 }
 
-document.getElementById("play-pause-button").addEventListener("click", () => {
-  socket.emit("command", { command: "play_pause" });
+document.getElementById("play-button").addEventListener("click", () => {
+  socket.emit("command", { command: "play" });
+});
+document.getElementById("pause-button").addEventListener("click", () => {
+  socket.emit("command", { command: "pause" });
+  document.getElementById("stop-button").addEventListener("click", () => {
+    socket.emit("command", { command: "stop" });
+  });
+  document.getElementById("prev-button").addEventListener("click", () => {
+    socket.emit("command", { command: "prev" });
+  });
+  document.getElementById("next-button").addEventListener("click", () => {
+    socket.emit("command", { command: "next" });
+  });
 });

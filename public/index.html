@@ -1,35 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OVOS Music Visualizer</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
     <div id="visualizer">
-        <div id="left-panel">
-            <img id="album-art" src="" alt="Album Art">
-            <h2 id="title">Waiting for track...</h2>
-            <p id="artist">Waiting for artist...</p>
-            <p id="album">Waiting for album...</p>
+        <div id="content-wrapper">
+            <div id="left-panel">
+                <img id="album-art" src="" alt="Album Art">
+                <div id="track-info">
+                    <h2 id="title">Waiting for track...</h2>
+                    <p id="artist">Waiting for artist...</p>
+                    <p id="album">Waiting for album...</p>
+                </div>
+            </div>
+            <div id="right-panel">
+                <div id="visualization">
+                    <img src="https://i.gifer.com/BHFO.gif" alt="Audio Visualization" id="viz-gif">
+                </div>
+            </div>
+        </div>
+        <div id="controls-wrapper">
             <div id="controls">
-                <button id="play-pause-button">Play/Pause</button>
+                <button id="play-button" class="control-button">
+                    <i class="fas fa-play"></i>
+                    <span class="tooltip">Play</span>
+                </button>
+                <button id="pause-button" class="control-button">
+                    <i class="fas fa-pause"></i>
+                    <span class="tooltip">Pause</span>
+                </button>
+                <button id="stop-button" class="control-button">
+                    <i class="fas fa-stop"></i>
+                    <span class="tooltip">Stop</span>
+                </button>
+                <button id="prev-button" class="control-button">
+                    <i class="fas fa-step-backward"></i>
+                    <span class="tooltip">Prev</span>
+                </button>
+                <button id="next-button" class="control-button">
+                    <i class="fas fa-step-forward"></i>
+                    <span class="tooltip">Next</span>
+                </button>
             </div>
             <div id="progress-bar-container">
                 <div id="progress-bar"></div>
             </div>
             <div id="time-info">
-                <span id="current-time">0:00</span> / <span id="total-time">0:00</span>
-            </div>
-        </div>
-        <div id="right-panel">
-            <div id="visualization">
-                <img src="https://i.gifer.com/BHFO.gif" alt="Audio Visualization" id="viz-gif">
+                <span id="current-time"></span> / <span id="total-time"></span>
             </div>
         </div>
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="app.js"></script>
 </body>
+
 </html>
