@@ -7,7 +7,10 @@ const project = new javascript.NodeProject({
   authorName: "Mike Gray",
   authorEmail: "mike@oscillatelabs.net",
   packageManager: NodePackageManager.PNPM,
+  pnpmVersion: "9",
 
-  deps: ["express", "socket.io", "ws"],
+  deps: ["express", "socket.io", "ws", "qs@^6.14.1"],
 });
+project.gitignore.addPatterns(".DS_Store");
+project.gitignore.addPatterns(".pnpm-store/");
 project.synth();
