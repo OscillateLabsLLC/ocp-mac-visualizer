@@ -41,4 +41,5 @@ junit.xml
 !/.github/workflows/upgrade-main.yml
 !/.github/pull_request_template.md
 !/.npmrc
+.DS_Store
 !/.projenrc.js

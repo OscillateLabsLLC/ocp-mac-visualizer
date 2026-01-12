@@ -213,7 +213,7 @@
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update constructs jest jest-junit projen standard-version express socket.io ws"
+          "exec": "pnpm update constructs jest jest-junit projen standard-version express qs socket.io ws"
         },
         {
           "exec": "npx projen"

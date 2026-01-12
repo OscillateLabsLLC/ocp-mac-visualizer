@@ -28,6 +28,11 @@
       "type": "runtime"
     },
     {
+      "name": "qs",
+      "version": "^6.14.1",
+      "type": "runtime"
+    },
+    {
       "name": "socket.io",
       "type": "runtime"
     },

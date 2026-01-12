@@ -8,6 +8,7 @@ const project = new javascript.NodeProject({
   authorEmail: "mike@oscillatelabs.net",
   packageManager: NodePackageManager.PNPM,
 
-  deps: ["express", "socket.io", "ws"],
+  deps: ["express", "socket.io", "ws", "qs@^6.14.1"],
 });
+project.gitignore.addPatterns(".DS_Store");
 project.synth();
