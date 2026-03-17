@@ -29,8 +29,8 @@ To set up OVOS Music Visualizer, follow these steps:
 1. Clone the repository:
 
    ```sh
-   git clone https://github.com/OscillateLabsLLC/ovos-music-visualizer.git
-   cd ovos-music-visualizer
+   git clone https://github.com/OscillateLabsLLC/ocp-mac-visualizer.git
+   cd ocp-mac-visualizer
    ```
 
 2. Install the dependencies:
