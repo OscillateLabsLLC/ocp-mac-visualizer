@@ -24,13 +24,28 @@ function updatePlaybackTime(data) {
   }
 }
 
+// Only http(s) and protocol-relative image URLs are allowed through to
+// <img src>. A javascript: or data: URI there would execute in the page,
+// and album art arrives from whatever is on the OVOS bus.
+function safeImageUrl(raw) {
+  if (typeof raw !== "string" || raw === "") {
+    return "";
+  }
+  try {
+    const url = new URL(raw, location.href);
+    return url.protocol === "http:" || url.protocol === "https:" ? url.href : "";
+  } catch {
+    return "";
+  }
+}
+
 function updateTrackInfo(data) {
   document.getElementById("title").textContent =
     data.title || data.track || "Unknown Title";
   document.getElementById("artist").textContent =
     data.artist || "Unknown Artist";
   document.getElementById("album").textContent = data.album || "Unknown Album";
-  document.getElementById("album-art").src = data.image || "";
+  document.getElementById("album-art").src = safeImageUrl(data.image);
 
   // Update totalDuration only if it's different
   totalDuration = (data.length || data.duration) / 1000;
