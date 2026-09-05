@@ -10,7 +10,7 @@ This project is a web-based music visualizer for OpenVoiceOS (OVOS), specificall
 
 - Displays current track information (title, artist, album)
 - Shows album art
-- Provides a play/pause button
+- Provides play, pause, stop, previous, and next controls
 - Displays a progress bar and current/total time
 - Includes a simple audio visualization
 
@@ -19,7 +19,7 @@ This project is a web-based music visualizer for OpenVoiceOS (OVOS), specificall
 Before you begin, ensure you have met the following requirements:
 
 - You have a running instance of OpenVoiceOS
-- Node.js and npm are installed on your system
+- Python 3.10 or newer, and [uv](https://docs.astral.sh/uv/)
 - You have basic knowledge of terminal/command line operations
 
 ## Setting up OVOS Music Visualizer
@@ -34,13 +34,17 @@ To set up OVOS Music Visualizer, follow these steps:
    ```
 
 2. Install the dependencies:
-   `npm install`
+
+   ```sh
+   uv sync
+   ```
+
 3. Configure the server:
 
-- Open `server.js` and ensure the WebSocket URL is correct for your OVOS instance (this default is OVOS' default):
+- Open `server.py` and ensure the WebSocket URL is correct for your OVOS instance (this default is OVOS' default):
 
-  ```javascript
-  const ovosSocket = new WebSocket("ws://localhost:8181/core");
+  ```python
+  OVOS_BUS_URL = "ws://127.0.0.1:8181/core"
   ```
 
 - If your OVOS instance is running on a different IP or port, update this URL accordingly.
@@ -48,7 +52,7 @@ To set up OVOS Music Visualizer, follow these steps:
 4. Start the server:
 
    ```sh
-   node server.js
+   uv run python server.py
    ```
 
 5. Open a web browser and navigate to `http://localhost:3000` (or the appropriate address if you've configured a different port).
@@ -67,7 +71,7 @@ Once the visualizer is running:
 If you encounter issues:
 
 - Ensure your OVOS instance is running and accessible.
-- Check that the WebSocket URL in `server.js` is correct.
+- Check that the `OVOS_BUS_URL` in `server.py` is correct.
 - Look at the server console and browser console for any error messages.
 
 ## Contributing

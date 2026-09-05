@@ -1,25 +1,28 @@
-const socket = io();
+const socket = new WebSocket(`ws://${location.host}/ws`);
 
 let currentTime = 0;
 let totalDuration = 0;
 
-socket.on("connect", () => {
+socket.addEventListener("open", () => {
   console.log("Connected to server");
 });
 
-socket.on("media_info", (data) => {
-  console.log("Received media info:", data);
-  updateTrackInfo(data);
+socket.addEventListener("message", (event) => {
+  const { event: name, data } = JSON.parse(event.data);
+  if (name === "media_info" || name === "track_info") {
+    updateTrackInfo(data);
+  } else if (name === "playback_time") {
+    updatePlaybackTime(data);
+  }
 });
 
-socket.on("playback_time", (data) => {
-  console.log("Received playback time:", data);
+function updatePlaybackTime(data) {
   if (data && typeof data.position === "number") {
     currentTime = data.position;
     totalDuration = data.length / 1000 || totalDuration / 1000;
     updateProgressBar();
   }
-});
+}
 
 function updateTrackInfo(data) {
   document.getElementById("title").textContent =
@@ -65,18 +68,14 @@ function updateTimeDisplay() {
   document.getElementById("total-time").textContent = formatTime(totalDuration);
 }
 
-document.getElementById("play-button").addEventListener("click", () => {
-  socket.emit("command", { command: "play" });
-});
-document.getElementById("pause-button").addEventListener("click", () => {
-  socket.emit("command", { command: "pause" });
-  document.getElementById("stop-button").addEventListener("click", () => {
-    socket.emit("command", { command: "stop" });
-  });
-  document.getElementById("prev-button").addEventListener("click", () => {
-    socket.emit("command", { command: "prev" });
-  });
-  document.getElementById("next-button").addEventListener("click", () => {
-    socket.emit("command", { command: "next" });
-  });
-});
+function send(command) {
+  if (socket.readyState === WebSocket.OPEN) {
+    socket.send(JSON.stringify({ command }));
+  }
+}
+
+for (const command of ["play", "pause", "stop", "prev", "next"]) {
+  document
+    .getElementById(`${command}-button`)
+    .addEventListener("click", () => send(command));
+}
