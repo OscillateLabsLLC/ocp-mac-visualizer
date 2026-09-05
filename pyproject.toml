@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=64.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ocp-mac-visualizer"
+version = "1.0.0"
+description = "Browser visualizer for OVOS Common Play, bridged from the OVOS message bus"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{ name = "Mike Gray", email = "mike@oscillatelabs.net" }]
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn>=0.32.0",
+    "websockets>=13.0",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.24.0",
+    "httpx>=0.27.0",
+]
+
+[project.scripts]
+ocp-mac-visualizer = "server:main"
+
+[project.urls]
+Homepage = "https://github.com/OscillateLabsLLC/ocp-mac-visualizer"
+
+[tool.setuptools]
+py-modules = ["server"]
+
+[tool.pytest.ini_options]
+testpaths = ["test"]
+asyncio_mode = "auto"

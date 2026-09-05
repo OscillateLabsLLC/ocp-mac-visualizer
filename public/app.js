@@ -1,25 +1,46 @@
-const socket = io();
+// Match the page's scheme so an https-served page uses wss and does not
+// trip mixed-content blocking.
+const wsScheme = location.protocol === "https:" ? "wss:" : "ws:";
+const socket = new WebSocket(`${wsScheme}//${location.host}/ws`);
 
 let currentTime = 0;
 let totalDuration = 0;
 
-socket.on("connect", () => {
+socket.addEventListener("open", () => {
   console.log("Connected to server");
 });
 
-socket.on("media_info", (data) => {
-  console.log("Received media info:", data);
-  updateTrackInfo(data);
+socket.addEventListener("message", (event) => {
+  const { event: name, data } = JSON.parse(event.data);
+  if (name === "media_info" || name === "track_info") {
+    updateTrackInfo(data);
+  } else if (name === "playback_time") {
+    updatePlaybackTime(data);
+  }
 });
 
-socket.on("playback_time", (data) => {
-  console.log("Received playback time:", data);
+function updatePlaybackTime(data) {
   if (data && typeof data.position === "number") {
     currentTime = data.position;
     totalDuration = data.length / 1000 || totalDuration / 1000;
     updateProgressBar();
   }
-});
+}
+
+// Only http(s) and protocol-relative image URLs are allowed through to
+// <img src>. A javascript: or data: URI there would execute in the page,
+// and album art arrives from whatever is on the OVOS bus.
+function safeImageUrl(raw) {
+  if (typeof raw !== "string" || raw === "") {
+    return "";
+  }
+  try {
+    const url = new URL(raw, location.href);
+    return url.protocol === "http:" || url.protocol === "https:" ? url.href : "";
+  } catch {
+    return "";
+  }
+}
 
 function updateTrackInfo(data) {
   document.getElementById("title").textContent =
@@ -27,7 +48,7 @@ function updateTrackInfo(data) {
   document.getElementById("artist").textContent =
     data.artist || "Unknown Artist";
   document.getElementById("album").textContent = data.album || "Unknown Album";
-  document.getElementById("album-art").src = data.image || "";
+  document.getElementById("album-art").src = safeImageUrl(data.image);
 
   // Update totalDuration only if it's different
   totalDuration = (data.length || data.duration) / 1000;
@@ -65,18 +86,14 @@ function updateTimeDisplay() {
   document.getElementById("total-time").textContent = formatTime(totalDuration);
 }
 
-document.getElementById("play-button").addEventListener("click", () => {
-  socket.emit("command", { command: "play" });
-});
-document.getElementById("pause-button").addEventListener("click", () => {
-  socket.emit("command", { command: "pause" });
-  document.getElementById("stop-button").addEventListener("click", () => {
-    socket.emit("command", { command: "stop" });
-  });
-  document.getElementById("prev-button").addEventListener("click", () => {
-    socket.emit("command", { command: "prev" });
-  });
-  document.getElementById("next-button").addEventListener("click", () => {
-    socket.emit("command", { command: "next" });
-  });
-});
+function send(command) {
+  if (socket.readyState === WebSocket.OPEN) {
+    socket.send(JSON.stringify({ command }));
+  }
+}
+
+for (const command of ["play", "pause", "stop", "prev", "next"]) {
+  document
+    .getElementById(`${command}-button`)
+    .addEventListener("click", () => send(command));
+}
