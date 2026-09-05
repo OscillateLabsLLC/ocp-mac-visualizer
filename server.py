@@ -8,6 +8,7 @@ messages in both directions.
 import asyncio
 import json
 import logging
+import os
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -17,8 +18,11 @@ from fastapi.staticfiles import StaticFiles
 
 LOG = logging.getLogger("ocp-mac-visualizer")
 
-OVOS_BUS_URL = "ws://127.0.0.1:8181/core"
-PORT = 3000
+# Both are overridable so the bridge can reach a remote or TLS-terminated
+# OVOS instance (wss://) without editing the source.
+OVOS_BUS_URL = os.environ.get("OVOS_BUS_URL", "ws://127.0.0.1:8181/core")
+HOST = os.environ.get("HOST", "127.0.0.1")
+PORT = int(os.environ.get("PORT", "3000"))
 PUBLIC_DIR = Path(__file__).parent / "public"
 
 # OVOS bus message type -> the event name the browser listens for.
@@ -142,7 +146,7 @@ def main() -> None:
     import uvicorn
 
     logging.basicConfig(level=logging.INFO)
-    uvicorn.run(app, host="127.0.0.1", port=PORT)
+    uvicorn.run(app, host=HOST, port=PORT)
 
 
 if __name__ == "__main__":

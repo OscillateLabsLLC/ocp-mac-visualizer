@@ -1,4 +1,7 @@
-const socket = new WebSocket(`ws://${location.host}/ws`);
+// Match the page's scheme so an https-served page uses wss and does not
+// trip mixed-content blocking.
+const wsScheme = location.protocol === "https:" ? "wss:" : "ws:";
+const socket = new WebSocket(`${wsScheme}//${location.host}/ws`);
 
 let currentTime = 0;
 let totalDuration = 0;

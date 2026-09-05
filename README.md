@@ -39,13 +39,15 @@ To set up OVOS Music Visualizer, follow these steps:
    uv sync
    ```
 
-3. Configure the server:
+3. Configure the server (optional):
 
-- Open `server.py` and ensure the WebSocket URL is correct for your OVOS instance (this default is OVOS' default):
+- The bridge reads `OVOS_BUS_URL`, `HOST`, and `PORT` from the environment. The defaults are OVOS' own defaults plus `127.0.0.1:3000`:
 
-  ```python
-  OVOS_BUS_URL = "ws://127.0.0.1:8181/core"
+  ```bash
+  OVOS_BUS_URL="ws://127.0.0.1:8181/core" HOST=127.0.0.1 PORT=3000 uv run python server.py
   ```
+
+- Use `wss://` if your OVOS instance is behind TLS.
 
 - If your OVOS instance is running on a different IP or port, update this URL accordingly.
 
@@ -71,7 +73,7 @@ Once the visualizer is running:
 If you encounter issues:
 
 - Ensure your OVOS instance is running and accessible.
-- Check that the `OVOS_BUS_URL` in `server.py` is correct.
+- Check that `OVOS_BUS_URL` points at your OVOS instance.
 - Look at the server console and browser console for any error messages.
 
 ## Contributing

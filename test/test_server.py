@@ -93,3 +93,33 @@ class TestRelayTable:
             "ovos.common_play.track_info": "track_info",
             "ovos.common_play.playback_time": "playback_time",
         }
+
+
+class TestConfiguration:
+    """The bridge is configured from the environment, not by editing source."""
+
+    def test_defaults_are_ovos_defaults(self, monkeypatch):
+        for var in ("OVOS_BUS_URL", "HOST", "PORT"):
+            monkeypatch.delenv(var, raising=False)
+        import importlib
+
+        import server as server_module
+
+        importlib.reload(server_module)
+        assert server_module.OVOS_BUS_URL == "ws://127.0.0.1:8181/core"
+        assert server_module.HOST == "127.0.0.1"
+        assert server_module.PORT == 3000
+
+    def test_environment_overrides_are_honored(self, monkeypatch):
+        monkeypatch.setenv("OVOS_BUS_URL", "wss://ovos.example.com/core")
+        monkeypatch.setenv("HOST", "0.0.0.0")
+        monkeypatch.setenv("PORT", "8080")
+        import importlib
+
+        import server as server_module
+
+        importlib.reload(server_module)
+        assert server_module.OVOS_BUS_URL == "wss://ovos.example.com/core"
+        assert server_module.HOST == "0.0.0.0"
+        assert server_module.PORT == 8080
+        importlib.reload(server_module)
