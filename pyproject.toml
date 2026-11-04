@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ocp-mac-visualizer"
-version = "1.0.0"
+version = "1.0.1"
 description = "Browser visualizer for OVOS Common Play, bridged from the OVOS message bus"
 readme = "README.md"
 license = { file = "LICENSE" }

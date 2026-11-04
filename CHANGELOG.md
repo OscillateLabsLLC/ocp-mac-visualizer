@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.1](https://github.com/OscillateLabsLLC/ocp-mac-visualizer/compare/v1.0.0...v1.0.1) (2026-11-04)
+
+
+### Bug Fixes
+
+* **deps:** bump certifi to 2026.10.23 ([5e7f7a0](https://github.com/OscillateLabsLLC/ocp-mac-visualizer/commit/5e7f7a0e380e2d55b609e7015537d20a674a180c))
+* **deps:** bump certifi to 2026.10.23 ([d6d8390](https://github.com/OscillateLabsLLC/ocp-mac-visualizer/commit/d6d8390b8dff1d2ec1e317bd49a4d521804e6cb5))
+
 ## [1.0.0](https://github.com/OscillateLabsLLC/ocp-mac-visualizer/compare/v0.0.4...v1.0.0) (2026-09-05)
 
 
